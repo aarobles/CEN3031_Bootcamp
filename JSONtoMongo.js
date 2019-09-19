@@ -15,16 +15,17 @@ mongoose.connect(config.db.uri, {useNewUrlParser : true});
 /*
   Instantiate a mongoose model for each listing object in the JSON file and save to database
  */
-var listings;
 
 fs.readFile('listings.json', 'utf8', (err, data) => {
-    if (err) return err;
+    if (err) throw err;
 
-    listings = JSON.parse(data);
+    var listings = JSON.parse(data);
 
-    listings.entries.forEach(function(item) {
-        item.save(err => {
-            if (err) return err;
+    listings.entries.forEach(item => {
+        var newEntry = Listing(item);
+
+        newEntry.save(err => {
+            if (err) throw err;
         });
     });
 });
