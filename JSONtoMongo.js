@@ -15,16 +15,16 @@ mongoose.connect('mongodb+srv://arobles:Ypj0OlM2wV5LWSGD@bootcamp-db-ogvpo.azure
 /*
   Instantiate a mongoose model for each listing object in the JSON file and save to database
  */
-var listingData;
+var listingData, parsedListings;
 
- fs.readFile('listings.json', 'utf8', function(err, data) {
-     if (err) throw err;
+fs.readFile('listings.json', 'utf8', parseData);
 
-     JSON.parse(listingData, function(){
-         listingData.forEach(function(item){
-             item.save(function(err){
-                 if (err) throw err;
-             });
-         });
-     });
- });
+var parseData = function(data) {
+     JSON.parse(data);
+ };
+
+function saveListings() {
+    Listing.forEach(function(item) {
+        item.save();
+    });
+};
