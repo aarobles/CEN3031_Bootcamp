@@ -10,21 +10,21 @@ var fs = require('fs'),
     config = require('./config');
 
 /* Connect to your database using mongoose - remember to keep your key secret*/
-mongoose.connect('mongodb+srv://arobles:Ypj0OlM2wV5LWSGD@bootcamp-db-ogvpo.azure.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser : true});
+mongoose.connect(config.db.uri, {useNewUrlParser : true});
 
 /*
   Instantiate a mongoose model for each listing object in the JSON file and save to database
  */
-var listingData, parsedListings;
+var listings;
 
-fs.readFile('listings.json', 'utf8', parseData);
+fs.readFile('listings.json', 'utf8', (err, data) => {
+    if (err) return err;
 
-var parseData = function(data) {
-     JSON.parse(data);
- };
+    listings = JSON.parse(data);
 
-function saveListings() {
-    Listing.forEach(function(item) {
-        item.save();
+    listings.entries.forEach(function(item) {
+        item.save(err => {
+            if (err) return err;
+        });
     });
-};
+});
