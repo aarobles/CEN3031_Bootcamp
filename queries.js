@@ -1,7 +1,11 @@
 /* Add all the required libraries*/
-var mongoose = require('mongoose');
+var fs = require('fs'),
+    mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    Listing = require('./ListingSchema.js'),
+    config = require('./config');
 
-mongoose.connect('mongodb+srv://arobles:Ypj0OlM2wV5LWSGD@bootcamp-db-ogvpo.azure.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser : true});
+mongoose.connect(config.db.uri, {useNewUrlParser : true});
 
 /* Fill out these functions using Mongoose queries*/
 var findLibraryWest = function() {
